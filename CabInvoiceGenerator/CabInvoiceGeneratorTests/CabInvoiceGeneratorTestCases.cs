@@ -62,5 +62,14 @@ namespace CabInvoiceGeneratorTests
             var nullRidesException = Assert.ThrowsException<CabInvoiceGeneratorException>(() => generateNormalFare.CalculateAgreegateFare(cabRides));
             Assert.AreEqual(CabInvoiceGeneratorException.ExceptionType.NULL_RIDES, nullRidesException.exceptionType);
         }
+        [TestMethod]
+        [TestCategory("Enhanced Invoice")]
+        public void GivenNoOfRides_ShouldReturnEnhancedInvoice()
+        {
+            Ride[] cabRides = { new Ride(10, 15), new Ride(10, 15) };
+            InvoiceSummary expected = new InvoiceSummary(cabRides.Length, 320);
+            InvoiceSummary actual = generateNormalFare.CalculateAgregateFare(cabRides);
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
