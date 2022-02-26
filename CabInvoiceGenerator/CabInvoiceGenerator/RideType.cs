@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace CabInvoiceGenerator
 {
-    public class Program
+    public enum RideType
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Welcome to Cab Invoice Generator");
-        }
+        NORMAL,
+        PREMIUM
     }
 }
