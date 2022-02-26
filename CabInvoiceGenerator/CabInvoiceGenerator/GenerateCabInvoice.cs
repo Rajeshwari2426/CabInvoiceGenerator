@@ -12,7 +12,6 @@ namespace CabInvoiceGenerator
         public readonly int COST_PER_KM;
         public readonly int COST_PER_MINUTE;
 
-       
         public GenerateCabInvoice(RideType type)
         {
             if (type.Equals(RideType.NORMAL))
@@ -41,6 +40,17 @@ namespace CabInvoiceGenerator
             {
                 throw ex;
             }
+        }
+        //  Method to calculate agregate fare for multiple rides
+        public double CalculateAgreegateFare(Ride[] rides)
+        {
+            double totalFare = 0;
+            if (rides.Length == 0)
+                throw new CabInvoiceGeneratorException(CabInvoiceGeneratorException.ExceptionType.NULL_RIDES, "No Rides Found");
+            foreach (var ride in rides)
+                totalFare += CalculateFare(ride.time, ride.distance);
+            double agreegateFare = Math.Max(totalFare, MINIMUM_FARE);
+            return agreegateFare;
         }
     }
 }
