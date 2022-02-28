@@ -1,8 +1,7 @@
 ﻿using CabInvoiceGenerator;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-
-
+using System.Collections.Generic;
 
 namespace CabInvoiceGeneratorTests
 {
@@ -70,6 +69,23 @@ namespace CabInvoiceGeneratorTests
             InvoiceSummary expected = new InvoiceSummary(cabRides.Length, 320);
             InvoiceSummary actual = generateNormalFare.CalculateAgregateFare(cabRides);
             Assert.AreEqual(expected, actual);
+        }
+        // TC 4.1 - Given user Id should return invoice summary
+        [TestMethod]
+        [TestCategory("Invoice Service")]
+        [DataRow(1, 2, 0, 10, 15, 10, 15)]
+        public void GivenUserIdReturnInvoiceSummary(int userId, int cabRideCount, double totalFare, int time1, double distance1, int time2, double distance2)
+        {
+          GenerateCabInvoice rideRepository = new GenerateCabInvoice();
+            Ride[] userRides = { new Ride(time1, distance1), new Ride(time2, distance2) };
+            rideRepository.AddUserRidesToRepository(userId, userRides, RideType.NORMAL);
+            List<Ride> list = new List<Ride>();
+            list.AddRange(userRides);
+            InvoiceSummary userInvoice = new InvoiceSummary(cabRideCount, totalFare);
+
+            User expected = new User(list, userInvoice);
+            User actual = rideRepository.ReturnInvoicefromRidesList(userId);
+            Assert.AreEqual(actual.InvoiceSummary.totalFare, expected.InvoiceSummary.totalFare);
         }
     }
 }

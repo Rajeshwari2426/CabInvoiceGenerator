@@ -32,5 +32,7 @@ namespace CabInvoiceGenerator
         {
             return $"Total number of rides : {this.numOfRides} \nTotalFare ={this.totalFare} \nAverageFare = {this.averageFare}";
         }
+
+        
     }
 }
