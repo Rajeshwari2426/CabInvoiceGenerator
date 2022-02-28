@@ -23,6 +23,12 @@ namespace CabInvoiceGenerator
                 COST_PER_MINUTE = 1;
                 MINIMUM_FARE = 5;
             }
+            if (type.Equals(RideType.PREMIUM))
+            {
+                COST_PER_KM = 15;
+                COST_PER_MINUTE = 2;
+                MINIMUM_FARE = 20;
+            }
         }
         //Method to Calculate Fare
         public double CalculateFare(int time, double distance)
@@ -56,19 +62,16 @@ namespace CabInvoiceGenerator
         }
         //Method to Genetare Enhanced Invoice.
         public InvoiceSummary CalculateAgregateFare(Ride[] rides)
-        {
-          //  InvoiceSummary agregateFare = null;
+        {          
             double totalFare=0;
             if (rides.Length == 0)
                 throw new CabInvoiceGeneratorException(CabInvoiceGeneratorException.ExceptionType.NULL_RIDES, "No Rides Found");
             foreach (var ride in rides)
             {
                 totalFare += CalculateFare(ride.time, ride.distance);
-                double agregateFare = Math.Max(totalFare, MINIMUM_FARE);
-                totalFare=agregateFare;
             }
-           
-             return new InvoiceSummary(rides.Length, totalFare);
+                double agregateFare = Math.Max(totalFare, MINIMUM_FARE);
+                return new InvoiceSummary(rides.Length, agregateFare);
         }
         //Method to Get Invoice For a user
 

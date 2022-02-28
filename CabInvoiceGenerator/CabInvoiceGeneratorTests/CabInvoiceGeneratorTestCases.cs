@@ -70,18 +70,18 @@ namespace CabInvoiceGeneratorTests
             InvoiceSummary actual = generateNormalFare.CalculateAgregateFare(cabRides);
             Assert.AreEqual(expected, actual);
         }
-        // TC 4.1 - Given user Id should return invoice summary
+        // TC 4.1,5.1 - Given user Id should return invoice summary
         [TestMethod]
         [TestCategory("Invoice Service")]
         [DataRow(1, 2, 0, 10, 15, 10, 15)]
-        public void GivenUserIdReturnInvoiceSummary(int userId, int cabRideCount, double totalFare, int time1, double distance1, int time2, double distance2)
+        public void GivenUserIdReturnInvoiceSummary(int userId, int cabRideCount, double agregateFare , int time1, double distance1, int time2, double distance2)
         {
           GenerateCabInvoice rideRepository = new GenerateCabInvoice();
             Ride[] userRides = { new Ride(time1, distance1), new Ride(time2, distance2) };
             rideRepository.AddUserRidesToRepository(userId, userRides, RideType.NORMAL);
             List<Ride> list = new List<Ride>();
             list.AddRange(userRides);
-            InvoiceSummary userInvoice = new InvoiceSummary(cabRideCount, totalFare);
+            InvoiceSummary userInvoice = new InvoiceSummary(cabRideCount, agregateFare);
 
             User expected = new User(list, userInvoice);
             User actual = rideRepository.ReturnInvoicefromRidesList(userId);
